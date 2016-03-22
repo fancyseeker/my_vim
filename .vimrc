@@ -105,7 +105,7 @@ nnoremap <C-N> :nohl<CR>
 " 映射m为移动到当前光标与行尾的中部, 行内二分跳转
 nnoremap m :call cursor(0 , col('.')+(len(getline('.'))- col('.'))/2)<CR>
 
-" vim中复制到系统剪切板
+" vim中复制到系统剪切板, 需要apt-get install vim-gnome
 " place yanked text into the global clipboard, and paste from the global clipboard
 set clipboard=unnamedplus
 
