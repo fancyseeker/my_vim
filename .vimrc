@@ -105,33 +105,35 @@ nnoremap <C-N> :nohl<CR>
 " 映射m为移动到当前光标与行尾的中部, 行内二分跳转
 nnoremap m :call cursor(0 , col('.')+(len(getline('.'))- col('.'))/2)<CR>
 
+" vim中复制到系统剪切板
+" place yanked text into the global clipboard, and paste from the global clipboard
+set clipboard=unnamedplus
+
 " High light trailing whitespace 高亮多余的尾空格
 highlight ExtraWhitespace ctermbg=darkred guibg=darkcyan
 autocmd BufWritePre * if &ft != 'help' | match ExtraWhitespace /\s\+$/ | endif
 autocmd BufWritePre * if &ft == 'help' | match none /\s\+$/ | endif
-
-" 删除行尾多余空格
+" 删除行尾多余空格 (trailing white space)
 nnoremap tw :%s/\s\+$//e<CR>
 
 " makeprg设置
 autocmd FileType c set makeprg=gcc\ -Wall\ -o\ %<\ %
 autocmd FileType cpp set makeprg=g++\ -Wall\ -o\ %<\ %
 
-" 将ejs文件高亮当做html来处理
-au BufNewFile,BufRead *.ejs set filetype=html
-
 " 每行80字符提示线
 " VIM 7.3+ has support for highlighting a specified column.
 if exists('+colorcolumn')
-"    set colorcolumn=80
-    set colorcolumn=72
+    set colorcolumn=80
+"    set colorcolumn=72
 else
     " Emulate
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%80v.\+', -1)
 endif
-" 80字符提示线颜色, 需要在colorscheme后面
+" 80字符提示线颜色, 需要在colorscheme后面方可生效
 hi ColorColumn ctermbg=black guibg=NONE
 
+" 将ejs文件高亮当做html来处理
+" au BufNewFile,BufRead *.ejs set filetype=html
 
 "-------------------------plugin setting-------------------------------------
 " leader键
