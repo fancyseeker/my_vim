@@ -48,6 +48,9 @@ nnoremap <F2> :set nonumber!<CR>
 " 为了方便复制, 将paste模式开关指定为<F3>
 set pastetoggle=<F3>
 
+" 用<F5>开启/关闭拼写检查
+nnoremap <F5> :set spell!<CR>
+
 " :set foldcolumn=0<CR>
 
 " 在终端下打开256色
@@ -123,8 +126,8 @@ autocmd FileType cpp set makeprg=g++\ -Wall\ -o\ %<\ %
 " 每行80字符提示线
 " VIM 7.3+ has support for highlighting a specified column.
 if exists('+colorcolumn')
-    set colorcolumn=80
-"    set colorcolumn=72
+"    set colorcolumn=80
+    set colorcolumn=72
 else
     " Emulate
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%80v.\+', -1)
