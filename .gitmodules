@@ -1,6 +1,6 @@
 [submodule ".fonts/powerline-fonts"]
-	path = .fonts/powerline-fonts
-	url = http://github.com/Lokaltog/powerline-fonts.git
+	path = powerline-fonts
+	url = http://github.com/powerline/fonts.git
 [submodule "bundle/Vundle.vim"]
 	path = bundle/Vundle.vim
 	url = https://github.com/gmarik/vundle.git
