@@ -3,4 +3,4 @@
 	url = http://github.com/powerline/fonts.git
 [submodule "bundle/Vundle.vim"]
 	path = bundle/Vundle.vim
-	url = https://github.com/gmarik/vundle.git
+	url = https://github.com/VundleVim/Vundle.vim
