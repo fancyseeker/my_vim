@@ -219,11 +219,13 @@ function! NERDTree_IsValid()
 endfunction
 
 " 键盘映射，同时加入防止因winmanager和nerdtree冲突而导致空白页的语句
-nmap wm :if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
+" nmap wm :if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
+nmap wm :WMToggle<CR>
+" 窗口布局
+" let g:winManagerWindowLayout='NERDTree|TagList'
+let g:winManagerWindowLayout='TagList'
 " 设置winmanager的宽度，默认为25
 let g:winManagerWidth=30
-" 窗口布局
-let g:winManagerWindowLayout='NERDTree|TagList'
 " 如果所有编辑文件都关闭了，退出vim
 let g:persistentBehaviour=0
 
@@ -270,11 +272,7 @@ set tags=tags
 " 添加系统调用路径
 set tags+=/home/linux/tags
 "键绑定，刷新tags
-nmap tg :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *<CR> :set tags+=./tags<CR>:!cscope -Rbq<CR>:cs add ./cscope.out .<CR>
-
-
-
-
+nmap tg :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *<CR> :set tags+=./tags<CR>:!find . -name "*.c" -o -name "*.h" -o -name "*.s" -o -name "*.S" > ./cscope.files<CR>:!cscope -Rbq<CR>:cs add ./cscope.out .<CR>
 
 " omnicppcomplete 设置
 " 按下F3自动补全代码，注意该映射语句后不能有其他字符，包括tab；否则按下F3会自动补全一些乱码
