@@ -5,12 +5,18 @@ set nocompatible
 set nu
 
 " 使用空格代替tab
-set expandtab
 " 设置（软）制表符宽度为4, 即空格数为4
+" 设置（自动）缩进的空格数为4
+set expandtab
 set tabstop=4
 set softtabstop=4
-" 设置（自动）缩进的空格数为4
 set shiftwidth=4
+
+" for kernel community
+" set tabstop=8
+" set softtabstop=8
+" set shiftwidth=8
+" set noexpandtab
 
 " 设置自动缩进：即每行的缩进值与上一行相等；使用 noautoindent 取消设置：
 set autoindent
@@ -106,7 +112,7 @@ nnoremap <C-N> :nohl<CR>
 " nnoremap m :call cursor(0, len(getline('.'))/2)<CR>
 
 " 映射m为移动到当前光标与行尾的中部, 行内二分跳转
-nnoremap m :call cursor(0 , col('.')+(len(getline('.'))- col('.'))/2)<CR>
+" nnoremap m :call cursor(0 , col('.')+(len(getline('.'))- col('.'))/2)<CR>
 
 " vim中复制到系统剪切板, 需要apt-get install vim-gnome
 " place yanked text into the global clipboard, and paste from the global clipboard
@@ -126,8 +132,8 @@ autocmd FileType cpp set makeprg=g++\ -Wall\ -o\ %<\ %
 " 每行80字符提示线
 " VIM 7.3+ has support for highlighting a specified column.
 if exists('+colorcolumn')
-"    set colorcolumn=80
-    set colorcolumn=72
+    let &colorcolumn='72,80'
+"    set colorcolumn=72
 else
     " Emulate
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%80v.\+', -1)
@@ -137,6 +143,7 @@ hi ColorColumn ctermbg=black guibg=NONE
 
 " 将ejs文件高亮当做html来处理
 " au BufNewFile,BufRead *.ejs set filetype=html
+au BufNewFile,BufRead *.json set filetype=javascript
 
 "-------------------------plugin setting-------------------------------------
 " leader键
@@ -159,25 +166,24 @@ Plugin 'gmarik/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-Plugin 'scrooloose/nerdtree'
+" Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-scripts/taglist.vim'
+" Plugin 'vim-scripts/taglist.vim'
 Plugin 'bling/vim-airline'
-Plugin 'vim-scripts/winmanager'
-Plugin 'vim-scripts/a.vim'
-" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'vim-scripts/winmanager'
+" Plugin 'vim-scripts/a.vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'vim-scripts/OmniCppComplete'
+" Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'moll/vim-bbye'
-"Plugin 'scrooloose/syntastic'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'shime/vim-livedown'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'rdnetto/YCM-Generator'
+Plugin 'scrooloose/syntastic'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -230,31 +236,6 @@ let g:winManagerWidth=30
 let g:persistentBehaviour=0
 
 
-" nerdtree设置
-" 让Tree把自己给装饰得多姿多彩漂亮
-" let NERDChristmasTree=1
-" 控制当光标移动超过一定距离时，是否自动将焦点调整到屏中心
-let NERDTreeAutoCenter=1
-" 指定鼠标模式（1.双击打开；2.单目录双文件；3.单击打开）
-" let NERDTreeMouseMode=2
-" 是否默认显示书签列表
-" let NERDTreeShowBookmarks=1
-" 是否默认显示文件
-let NERDTreeShowFiles=1
-" 是否默认显示隐藏文件
-" let NERDTreeShowHidden=1
-" 是否默认显示行号
-" let NERDTreeShowLineNumbers=1
-" 窗口位置（'left' or 'right'）
-" let NERDTreeWinPos='left'
-" 窗口宽
-let NERDTreeWinSize=31
-
-" nerdcommenter设置
-" 注释符号与内容间留有１个空格
-let g:NERDSpaceDelims = 1
-
-
 " taglist设置
 let Tlist_Show_One_File=1 " 0为同时显示多个文件函数列表,1则只显示当前文件函数列表
 let Tlist_Auto_Update=1
@@ -267,33 +248,23 @@ let Tlist_Auto_Update=1            "Automatically update the taglist to include 
 "let Tlist_Show_Menu=1
 "启动vim自动打开taglist
 "let Tlist_Auto_Open=1
+
+
+" ctags
 " ctags, 指定tags文件的位置,让vim自动在当前或者上层文件夹中寻找tags文件
 set tags=tags
 " 添加系统调用路径
 set tags+=/home/linux/tags
 "键绑定，刷新tags
-nmap tg :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *<CR> :set tags+=./tags<CR>:!find . -name "*.c" -o -name "*.h" -o -name "*.s" -o -name "*.S" > ./cscope.files<CR>:!cscope -Rbq<CR>:cs add ./cscope.out .<CR>
+nmap tg :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *<CR> :set tags+=./tags<CR>:!find . -name "*.c" -name "*.[chsS]" -print > ./cscope.files<CR>:!cscope -Rbq<CR>:cs add ./cscope.out .<CR>
+"  nmap tg :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q *<CR> :set tags+=./tags<CR>:!find . -name "*.c" -name "*.[chsS]" -print | sed 's,^\./,,' > ./cscope.files<CR>:!cscope -Rbq<CR>:cs add ./cscope.out .<CR>
 
-" omnicppcomplete 设置
-" 按下F3自动补全代码，注意该映射语句后不能有其他字符，包括tab；否则按下F3会自动补全一些乱码
-" imap <F3> <C-X><C-O>
-" 按下F2根据头文件内关键字补全
-" imap <F2> <C-X><C-I>
-set completeopt=menu,menuone " 关掉智能补全时的预览窗口
-let OmniCpp_MayCompleteDot = 1 " autocomplete with .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete with ->
-let OmniCpp_MayCompleteScope = 1 "autocomplete with ::
-let OmniCpp_SelectFirstItem = 2 " select first item (but don't insert)
-let OmniCpp_NamespaceSearch = 2 "search namespaces in this and included files
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype in popup window
-let OmniCpp_GlobalScopeSearch=1 " enable the global scope search
-let OmniCpp_DisplayMode=1 "Class scope completion mode: always show all members
-let OmniCpp_DefaultNamespaces=["std"]
-let mniCpp_ShowScopeInAbbr=1 " show scope in abbreviation and remove the last column
-let OmniCpp_ShowAccess=1
+" Ctrl+w Ctrl+] - Open the definition in a horizontal split
 
-
-
+" Open the definition in a vertical split
+" 处理Alt无法映射问题
+execute "set <M-]>=\e]"
+nnoremap <M-]> :vsp <CR> <C-W>l :exec("tag ".expand("<cword>"))<CR>
 
 " Cscope 设置
 if has("cscope")
@@ -330,7 +301,16 @@ set cscopequickfix=s-,c-,d-,i-,t-,e-
 set laststatus=2
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline
 " 使用powerline打过补丁的字体
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
+" the separator used on the left side
+" let g:airline_left_sep='>'
+let g:airline_left_sep=''
+" the separator used on the right side
+" let g:airline_right_sep='<'
+let g:airline_right_sep=''
+" enable spell detection
+let g:airline_detect_spell=1
 " 开启tabline
 let g:airline#extensions#tabline#enabled = 1
 " tabline中当前高亮buffer两端的分隔字符
@@ -377,3 +357,15 @@ let g:livedown_autorun = 0
 let g:livedown_open = 1
 " the port on which Livedown server will run
 let g:livedown_port = 1337
+
+" You Complete Me
+" let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+" let g:ycm_server_keep_logfiles = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>jl :YcmCompleter GoToDeclaration<CR>
+" nnoremap <leader>ja :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" nnoremap ce :YcmDiags<CR>
+" 
+" YCM-Generator
+" nnoremap yg :YcmGenerateConfig<CR>
